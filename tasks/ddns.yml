@@ -1,0 +1,12 @@
+---
+
+- name: Cloudflare DDNS
+  community.docker.docker_container:
+    name: ddns
+    image: oznu/cloudflare-ddns:latest
+    restart_policy: always
+    env:
+      API_KEY: "{{ cf_token }}"
+      ZONE: "{{ cf_zone }}"
+      SUBDOMAIN: " {{ cf_zone_subdomain }}"
+      PROXIED: "true"
