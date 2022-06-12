@@ -26,11 +26,10 @@
         update_cache: yes
       when:
         - ansible_facts.os_family == "RedHat"
-  
-  handlers:
-    - name: Include handlers.
-      ansible.builtin.import_tasks: tasks/handlers.yml
 
+  handlers:
+    - name: Include handlers
+      ansible.builtin.import_tasks: tasks/handlers.yml
 
   tasks:
 
@@ -42,7 +41,16 @@
 
     - name: Install Nginx Proxy Manager
       import_tasks: tasks/proxy.yml
+      when: proxy_enable
 
     - name: install portainer
       import_tasks: tasks/portainer.yml
       when: portainer_enable
+
+    - name: install pihole
+      import_tasks: tasks/pihole.yml
+      when: pihole_enable
+
+    - name: cloudflare ddns
+      import_tasks: tasks/ddns.yml
+      when: cf_ddns_enable
