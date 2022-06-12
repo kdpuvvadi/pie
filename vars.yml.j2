@@ -5,6 +5,7 @@ config_dir: '~'
 docker_group: docker
 
 # proxy vars
+proxy_enable: true
 network: proxy
 
 # portainer
@@ -15,3 +16,9 @@ pihole_enable: true
 pihole_hostname: pihole
 pihole_timezone: Asia/Kolkata
 pihole_password: "secure-password"
+
+# Cloudflare ddns
+cf_ddns_enable: true
+cf_token: "token"
+cf_zone: "example.com"
+cf_zone_subdomain: "home"
