@@ -47,10 +47,10 @@
       import_tasks: tasks/portainer.yml
       when: portainer_enable
 
-    - name: install pihole
-      import_tasks: tasks/pihole.yml
-      when: pihole_enable
-
     - name: cloudflare ddns
       import_tasks: tasks/ddns.yml
       when: cf_ddns_enable
+
+    - name: install pihole
+      import_tasks: tasks/pihole.yml
+      when: pihole_enable
