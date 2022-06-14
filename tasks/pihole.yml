@@ -1,21 +1,25 @@
 ---
-- name: Create Pi-hole folder on Pi.
-  ansible.builtin.file:
-    path: "{{ config_dir }}/pi-hole"
-    state: directory
-    mode: 0755
-  become: false
 
-- name: Copy Pi-hole docker-compose template to Pi.
-  ansible.builtin.template:
-    src: config/pihole.yml.j2
-    dest: "{{ config_dir }}/pi-hole/docker-compose.yml"
-    mode: '0640'
-  become: false
-  notify: Restart pi-hole
-
-- name: Ensure Pi-hole is running.
-  community.docker.docker_compose:
-    project_src: "{{ config_dir }}/pi-hole/"
-    build: false
-  become: false
+- name: Deploy pihole
+  community.docker.docker_container:
+    name: pihole
+    image: pihole/pihole:latest
+    restart_policy: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "90:80/tcp"
+      - "8443:443/tcp"
+    volumes:
+      - "./etc-pihole/:/etc/pihole/"
+      - "./etc-dnsmasq.d/:/etc/dnsmasq.d/"
+    env:
+      TZ: "{{ pihole_timezone }}"
+      WEBPASSWORD: "{{ pihole_password }}"
+      ServerIP: "{{ ansible_facts['default_ipv4']['address'] }}"
+    capabilities:
+      - NET_ADMIN
+    dns_servers:
+      - 1.1.1.1
+      - 127.0.0.1
