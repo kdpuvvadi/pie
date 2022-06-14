@@ -1,11 +1,5 @@
 ---
 
-- name: Stop service systemd-resolve
-  service:
-    name: systemd-resolved
-    state: stopped
-    enabled: no
-
 - name: Deploy pihole
   community.docker.docker_container:
     name: pihole
