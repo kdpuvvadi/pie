@@ -10,3 +10,6 @@
       ZONE: "{{ cf_zone }}"
       SUBDOMAIN: " {{ cf_zone_subdomain }}"
       PROXIED: "true"
+    dns_servers:
+      - 1.1.1.1
+      - 127.0.0.1
