@@ -50,3 +50,6 @@
     - name: install pihole
       import_tasks: tasks/pihole.yml
       when: pihole_enable
+
+    - name: install watchtower
+      import_tasks: tasks/watchtower.yml

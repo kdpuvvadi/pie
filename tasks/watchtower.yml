@@ -1,0 +1,14 @@
+---
+
+- name: Install watchtower
+  community.docker.docker_container:
+    name: watchtower
+    image: containrrr/watchtower
+    ports:
+      - "7443:9443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart_policy: always
+    dns_servers:
+      - 1.1.1.1
+      - 127.0.0.1
