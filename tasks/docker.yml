@@ -1,14 +1,14 @@
 ---
 
 - name: if Docker is already installed?.
-  command: which docker
+  ansible.builtin.command: which docker
   failed_when: false
   changed_when: false
   check_mode: false
   register: docker_present
 
 - name: Download Docker install script.
-  get_url:
+  ansible.builtin.get_url:
     url: https://get.docker.com/
     dest: /tmp/get-docker.sh
     mode: 0775
@@ -17,7 +17,7 @@
     - ansible_facts.os_family != "RedHat"
 
 - name: Run Docker install script.
-  command: /tmp/get-docker.sh
+  ansible.builtin.command: /tmp/get-docker.sh
   environment:
     CHANNEL: stable
   when:
@@ -25,20 +25,20 @@
     - ansible_facts.os_family != "RedHat"
 
 - name: add docker repo to yum
-  command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  ansible.builtin.command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
   when:
     - docker_present.rc == 1
     - ansible_facts.os_family == "RedHat"
 
 - name: update yum cache
-  yum:
+  ansible.builtin.yum:
     update_cache: yes
   when:
     - ansible_facts.os_family == "RedHat"
     - docker_present.rc == 1
 
 - name: install docker on redhat
-  yum:
+  ansible.builtin.yum:
     name:
       - docker-ce
       - docker-ce-cli
@@ -49,21 +49,21 @@
     - ansible_facts.os_family == "RedHat"
 
 - name: Start docker
-  service:
+  ansible.builtin.service:
     name: docker
     state: started
     enabled: true
 
 - name: Create group docker
-  group:
+  ansible.builtin.group:
     name: docker
     state: present
 
 - name: adding existing user '{{ ansible_user }}' to group sudo
-  user:
+  ansible.builtin.user:
     name: '{{ ansible_user }}'
     groups: docker
     append: yes
 
 - name: Reset connection
-  meta: reset_connection
+  ansible.builtin.meta: reset_connection
