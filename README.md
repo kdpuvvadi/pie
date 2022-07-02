@@ -1,4 +1,4 @@
-# Pie 
+# Pie
 
 [![lint](https://github.com/kdpuvvadi/pie/actions/workflows/lint.yml/badge.svg?event=push)](https://github.com/kdpuvvadi/pie/actions/workflows/lint.yml)
 
@@ -8,18 +8,21 @@ You need at least 2.9 or higher version of ansible.
 
 ## Setup
 
-1. Install pip `sudo apt install python3-pip -y`
-2. install ansible with pip `pip install ansible`
-3. Install docker sdk for ansible `pip install docker`
-4. Install requirements `ansible-galaxy collection install -r requirements.yml`
+1. Install pip `sudo apt install python3-pip -y`.
+2. install ansible with pip `pip install ansible`.
+3. Install docker sdk for ansible `pip install docker`.
+4. Clone the repo  `git clone https://github.com/kdpuvvadi/pie.git pie`.
+5. copy `inventory.ini.j2` to `inventory.ini`.
+6. Change host ip.
+7. copy `vars.yml.j2` to `vars.yml`.
+8. Install requirements `ansible-galaxy collection install -r requirements.yml`
+9. Change the variables based on your preferences.
 
 ## Run
 
-1. Clone the repo  `git clone https://github.com/kdpuvvadi/pie.git pie`.
-2. copy `inventory.ini.j2` to `inventory.ini`.
-3. Change host ip.
-4. copy `vars.yml.j2` to `vars.yml`.
-5. Change the variable based on your preferences.
+Run `ansible-playbook main.yml`
+
+> Amend `-k` incase the `ansible_user` needs password for elevation/root access.
 
 ## CloudFlare DDNS
 
@@ -36,7 +39,7 @@ cf_zone_subdomain: "home"
 
 ### Generate a Cloudflare API token
 
-To create a CloudFlare API token for your DNS zone go to https://dash.cloudflare.com/profile/api-tokens and follow these steps:
+To create a CloudFlare API token for your DNS zone go to [https://dash.cloudflare.com/profile/api-tokens](https://dash.cloudflare.com/profile/api-tokens) and follow these steps:
 
 1. Click Create Token
 2. Provide the token a name, for example, `cloudflare-ddns`
@@ -53,31 +56,34 @@ To create a CloudFlare API token for your DNS zone go to https://dash.cloudflare
 ## pihole
 
 ```yml
-# pihole
 pihole_enable: true
 pihole_hostname: pihole
 pihole_timezone: Asia/Kolkata
 pihole_password: "secure-password"
 ```
 
-Change the timezone and pihole login password, you can skip the password to autogenerate the password by pihole it self and grab the password from the log. Make sure to comment out the `WEBPASSWORD` in docker compose file [/config/pihole.yml.j2](/config/pihole.yml.j2).
+Change the timezone and pihole login password, you can skip the `pihole_password` to autogenerate the password by pihole it self and grab the password from the log. Make sure to comment out the `WEBPASSWORD` in docker compose file [/config/pihole.yml.j2](/config/pihole.yml.j2).
 
 ## Nginx Proxy Manager Login Details
 
 ```ini
-Email:    admin@example.com
+Email: admin@example.com
 Password: changeme
 ```
 
- More info & documentation of Nginx Proxy Manager [Visit Nginx Proxy Manager Official Website](https://nginxproxymanager.com/)
+ More info & documentation of Nginx Proxy Manager [Official website here](https://nginxproxymanager.com/)
 
 ## Portainer
 
 To install portainer set `portainer_enable` value to `true`.
 
-## Run the playbook
+## Support
 
-Run `ansible-playbook main.yml`
+For support, open an issue [here](/issues).
+
+## Authors
+
+* [@kdpuvvadi](https://www.github.com/kdpuvvadi)
 
 ## License
 
